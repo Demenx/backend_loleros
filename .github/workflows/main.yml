@@ -1,0 +1,25 @@
+name: Discord Webhook Notify
+
+on:
+  push:
+    branches:
+      - master
+      # note that your "main" branch might be called main instead of master
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Discord Webhook Notify
+        # You may pin to the exact commit or the version.
+        # uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        with:
+          # Discord webhook URL. Should be stored in a secret and inserted as a context expression.
+          webhookUrl: ${{secrets.DISCORD_WEBHOOK}}
+          # Severity level - info, warn, or error
+          severity: info # optional, default is error
+          # Additional text after the notification message in case you want to retain the default message.
+          details: Nuevo Push
+          # URL to png of discord avatar to use. Default is the GitHub monochrome mark cat logo.
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
