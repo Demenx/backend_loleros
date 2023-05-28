@@ -1,7 +1,7 @@
 const axios = require('axios')
 require('dotenv').config()
 const LOLEROS = require('./constants.js')
-const { LolerosRacha, LolerosRecord } = require('../models/lolerosRacha')
+const { LolerosRacha, LolerosRecord } = require('./models/lolerosRacha')
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
