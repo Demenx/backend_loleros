@@ -11,9 +11,15 @@ mongoose.connect(url)
   })
 
 const lolerosRachaSchema = new mongoose.Schema({
+    nombre: String,
     racha: Number,
     puuid: String,
-  })
+})
+
+const lolerosRecordSchema = new mongoose.Schema({
+    racha: Number,
+    nombre: String
+})
 
 lolerosRachaSchema.set('toJSON', {
     transform: (document, returnedObject) => {
@@ -23,4 +29,13 @@ lolerosRachaSchema.set('toJSON', {
     }
 })
 
-module.exports = mongoose.model('LolerosRacha', lolerosRachaSchema)
+lolerosRecordSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+
+module.exports.LolerosRacha = mongoose.model('LolerosRacha', lolerosRachaSchema)
+module.exports.LolerosRecord = mongoose.model('LolerosRecord', lolerosRecordSchema)

@@ -23,3 +23,7 @@ jobs:
           details: Nuevo Push
           # URL to png of discord avatar to use. Default is the GitHub monochrome mark cat logo.
           avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.66.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          

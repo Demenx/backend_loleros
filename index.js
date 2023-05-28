@@ -1,9 +1,10 @@
 const axios = require('axios')
 require('dotenv').config()
 const LOLEROS = require('./constants.js')
-const LolerosRacha = require('./models/lolerosRacha')
+const { LolerosRacha, LolerosRecord } = require('./models/lolerosRacha')
 const express = require('express')
 const app = express()
+const mongoose = require('mongoose')
 
 const headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.50",
@@ -12,59 +13,90 @@ const headers = {
     "X-Riot-Token": process.env.X_RIOT_TOKEN    
 }
 
+let rachamaxima = 0
+const rachaid = "6472abe62e2d3dc24c4aaeb6"
 
-const racha = async (puuid, numPartidas) =>{
+const racha = async (lolero, numPartidas) =>{
     let cantidadDerrotas = 0;
     for (const numPartida of numPartidas) {
         await delay(2500);
-        const response = await axios.get(`https://americas.api.riotgames.com/lol/match/v5/matches/${numPartida}`,{
+        const response = await axios.get(`https://${lolero.region}.api.riotgames.com/lol/match/v5/matches/${numPartida}`,{
             headers: headers
         })
-        if (response.data.metadata.participants.indexOf(puuid) < 5){
+        if (response.data.metadata.participants.indexOf(lolero.puuid) < 5){
             if(response.data.info.teams[0].win){
                 console.log(cantidadDerrotas)
-                console.log(puuid)
+                console.log(lolero.nombre)
+                if (cantidadDerrotas > rachamaxima){
+                    rachamaxima = cantidadDerrotas
+                    const record = {
+                        racha: rachamaxima,
+                        nombre: lolero.nombre
+                    }
+                    LolerosRecord.findByIdAndUpdate(rachaid, record, {new: true})
+                    .then(updatedNote => {
+                        console.log(updatedNote)
+                      })
+                }
+                const racha = {
+                    nombre: lolero.nombre,
+                    racha: cantidadDerrotas,
+                    puuid: lolero.puuid
+                }
+                LolerosRacha.findByIdAndUpdate(lolero.id, racha, { new: true }) 
+                .then(updatedNote => {
+                    console.log(updatedNote)
+                  })
                 break
             } else {
-                console.log("Perdio")
                 cantidadDerrotas++
             }
         } else {
             if(response.data.info.teams[0].win){
-                console.log("Perdio")
                 cantidadDerrotas++
             } else {
                 console.log(cantidadDerrotas)
-                console.log(puuid)
+                console.log(lolero.nombre)
+                if (cantidadDerrotas > rachamaxima){
+                    rachamaxima = cantidadDerrotas
+                    const record = {
+                        racha: rachamaxima,
+                        nombre: lolero.nombre
+                    }
+                    LolerosRecord.findByIdAndUpdate(rachaid, record, {new: true})
+                    .then(updatedNote => {
+                        console.log(updatedNote)
+                      })
+                }
+                const racha = {
+                    nombre: lolero.nombre,
+                    racha: cantidadDerrotas,
+                    puuid: lolero.puuid
+                }
+                LolerosRacha.findByIdAndUpdate(lolero.id, racha, { new: true })
+                .then(updatedNote => {
+                    console.log(updatedNote)
+                  })
                 break
             }
         }
     }
 }
 
-const partidas = async (puuid) => {
-    await delay(2500);
-    const response = await axios.get(`https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=50`,{
+const partidas = async () => {
+    for(const lolero of LOLEROS) {
+        await delay(2500);
+    const response = await axios.get(`https://${lolero.region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${lolero.puuid}/ids?start=0&count=50`,{
         headers: headers
     })
     const numPartidas = response.data
-    await racha(puuid, numPartidas)
+    await racha(lolero, numPartidas)
+    }
 }
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-const identificadores = async () => {
-    for (const lolero of LOLEROS) {
-        await delay(2500);
-        const response = await axios.get(`https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-name/${lolero}`,{
-            headers: headers
-        })
-        const puuid = response.data.puuid
-        await partidas(puuid);
-    }
-}
-
-identificadores()
+partidas()
 
 const PORT = process.env.PORT
 
