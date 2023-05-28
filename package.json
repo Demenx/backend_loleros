@@ -14,6 +14,7 @@
   "author": "Memo",
   "license": "ISC",
   "dependencies": {
+    "@vercel/analytics": "^1.0.1",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

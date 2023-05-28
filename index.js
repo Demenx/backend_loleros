@@ -52,7 +52,7 @@ const racha = async (lolero, numPartidas, rachamaxima) =>{
                         nombre: lolero.nombre,
                         foto: lolero.foto
                     }
-                    LolerosRecord.findByIdAndUpdate(rachaid, record, {new: true})
+                    await LolerosRecord.findByIdAndUpdate(rachaid, record, {new: true})
                     .then(updatedNote => {
                         console.log(updatedNote)
                       })
@@ -63,7 +63,7 @@ const racha = async (lolero, numPartidas, rachamaxima) =>{
                     puuid: lolero.puuid,
                     foto: lolero.foto
                 }
-                LolerosRacha.findByIdAndUpdate(lolero.id, racha, { new: true }) 
+                await LolerosRacha.findByIdAndUpdate(lolero.id, racha, { new: true }) 
                 .then(updatedNote => {
                     console.log(updatedNote)
                   })
@@ -84,7 +84,7 @@ const racha = async (lolero, numPartidas, rachamaxima) =>{
                         nombre: lolero.nombre,
                         foto: lolero.foto
                     }
-                    LolerosRecord.findByIdAndUpdate(rachaid, record, {new: true})
+                    await LolerosRecord.findByIdAndUpdate(rachaid, record, {new: true})
                     .then(updatedNote => {
                         console.log(updatedNote)
                       })
@@ -95,7 +95,7 @@ const racha = async (lolero, numPartidas, rachamaxima) =>{
                     puuid: lolero.puuid,
                     foto: lolero.foto
                 }
-                LolerosRacha.findByIdAndUpdate(lolero.id, racha, { new: true })
+                await LolerosRacha.findByIdAndUpdate(lolero.id, racha, { new: true })
                 .then(updatedNote => {
                     console.log(updatedNote)
                   })
