@@ -2,7 +2,10 @@
   "name": "loleros_backend",
   "version": "0.0.1",
   "description": "Backend de la app de los loleros",
-  "main": "index.js",
+  "main": "/api/index.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "start": "node api/index.js",
     "dev": "nodemon api/index.js",
