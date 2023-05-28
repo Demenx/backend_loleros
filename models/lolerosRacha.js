@@ -14,11 +14,13 @@ const lolerosRachaSchema = new mongoose.Schema({
     nombre: String,
     racha: Number,
     puuid: String,
+    foto: String
 })
 
 const lolerosRecordSchema = new mongoose.Schema({
     racha: Number,
-    nombre: String
+    nombre: String,
+    foto: String
 })
 
 lolerosRachaSchema.set('toJSON', {
