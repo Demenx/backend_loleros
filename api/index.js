@@ -1,14 +1,14 @@
 const axios = require('axios')
 require('dotenv').config()
 const LOLEROS = require('./constants.js')
-const { LolerosRacha, LolerosRecord } = require('./models/lolerosRacha')
+const { LolerosRacha, LolerosRecord } = require('../models/lolerosRacha')
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 
 app.use(cors())
-app.use(express.static('dist'))
+app.use(express.static('public'))
 
 app.get('/api/record', (request, response) => {
     LolerosRecord.find({}).then(result => {
