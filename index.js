@@ -8,7 +8,6 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 app.use(cors())
-app.use(express.static('public'))
 
 app.get('/api/record', (request, response) => {
     LolerosRecord.find({}).then(result => {
